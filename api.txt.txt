@@ -1,0 +1,8 @@
+POST https://localhost:5001/api/books
+Content-Type: application/json
+
+{
+    "authorId": "2902b665-1190-4c70-9915-b9c2d7680450",
+    "title": "test",
+    "description": "desc"
+}

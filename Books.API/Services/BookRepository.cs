@@ -76,5 +76,20 @@ namespace Books.API.Services
         {
             return _context.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == id);
         }
+
+        public void AddBook(Book bookToAdd) // add to context is not async
+        {
+            if (bookToAdd == null)
+            {
+                throw new ArgumentNullException(nameof(bookToAdd));
+            }
+
+            _context.Add(bookToAdd);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() > 0);
+        }
     }
 }

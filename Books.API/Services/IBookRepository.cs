@@ -15,5 +15,9 @@ namespace Books.API.Services
         Task<IEnumerable<Entities.Book>> GetBooksAsync();  // naming convension ...Async if the method returns Task
 
         Task<Entities.Book> GetBookAsync(Guid id); // the suffix here tells the consumer that this is async
+
+        void AddBook(Entities.Book bookToAdd);
+
+        Task<bool> SaveChangesAsync();
     }
 }
