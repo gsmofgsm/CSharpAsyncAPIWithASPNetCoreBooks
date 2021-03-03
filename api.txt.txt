@@ -22,3 +22,5 @@ Content-Type: application/json
         "description": "desc"
     }
 ]
+
+GET https://localhost:5001/api/books/c6605a1f-c53f-4a4b-9e73-08d8de80d5a5

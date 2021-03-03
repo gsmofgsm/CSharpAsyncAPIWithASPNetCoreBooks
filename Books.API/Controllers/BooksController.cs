@@ -35,7 +35,7 @@ namespace Books.API.Controllers
         }
 
         [HttpGet("{bookId}", Name = "GetBook")]
-        [BookResultFilter]
+        [BookWithCoversResultFilter]
         public async Task<IActionResult> GetBook(Guid bookId)
         {
             var bookEntity = await _bookRepository.GetBookAsync(bookId);
@@ -44,9 +44,17 @@ namespace Books.API.Controllers
                 return NotFound();
             }
 
-            var bookCover = await _bookRepository.GetBookCoversAsync(bookId);
+            var bookCovers = await _bookRepository.GetBookCoversAsync(bookId);
 
-            return Ok(bookEntity);
+            //var propertyBag = new Tuple<Entities.Book, IEnumerable<ExternalModels.BookCover>>
+            //    (bookEntity, bookCovers);
+            ////propertyBag.Item1  old we of using tuple
+
+            //// new way of tuple since C# 7
+            //// propertyBag ValueTuple
+            //(Entities.Book book, IEnumerable<ExternalModels.BookCover> bookCovers) propertyBag = (bookEntity, bookCovers);
+
+            return Ok((bookEntity, bookCovers)); // we don't need to name the properties
         }
 
         [HttpPost]
