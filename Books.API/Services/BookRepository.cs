@@ -28,6 +28,7 @@ namespace Books.API.Services
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
+            await _context.Database.ExecuteSqlRawAsync("WAITFOR DELAY '00:00:02';");
             //return _context.Books.ToList();
             return await _context.Books.Include(b => b.Author).ToListAsync();
         }
@@ -63,6 +64,17 @@ namespace Books.API.Services
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerable<Book> GetBooks()
+        {
+            _context.Database.ExecuteSqlRaw("WAITFOR DELAY '00:00:02';");
+            return _context.Books.Include(b => b.Author).ToList();
+        }
+
+        public Book GetBook(Guid id)
+        {
+            return _context.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == id);
         }
     }
 }

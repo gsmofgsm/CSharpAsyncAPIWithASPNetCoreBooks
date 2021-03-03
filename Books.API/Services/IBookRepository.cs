@@ -8,9 +8,10 @@ namespace Books.API.Services
 {
     public interface IBookRepository
     {
-        //IEnumerable<Entities.Book> GetBooks();
+        IEnumerable<Entities.Book> GetBooks();
 
-        //Entities.Book GetBook(Guid id);
+        Entities.Book GetBook(Guid id);
+
         Task<IEnumerable<Entities.Book>> GetBooksAsync();  // naming convension ...Async if the method returns Task
 
         Task<Entities.Book> GetBookAsync(Guid id); // the suffix here tells the consumer that this is async
