@@ -16,6 +16,8 @@ namespace Books.API.Services
 
         Task<Entities.Book> GetBookAsync(Guid id); // the suffix here tells the consumer that this is async
 
+        Task<IEnumerable<Entities.Book>> GetBooksAsync(IEnumerable<Guid> booksId);
+
         void AddBook(Entities.Book bookToAdd);
 
         Task<bool> SaveChangesAsync();
