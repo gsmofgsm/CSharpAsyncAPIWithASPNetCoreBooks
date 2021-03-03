@@ -1,10 +1,13 @@
 ﻿using Books.API.Contexts;
 using Books.API.Entities;
+using Books.API.ExternalModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Books.API.Services
@@ -12,11 +15,14 @@ namespace Books.API.Services
     public class BookRepository : IBookRepository, IDisposable
     {
         private BooksContext _context;
+        private readonly IHttpClientFactory _httpClientFactory;
         private bool disposedValue;
 
-        public BookRepository(BooksContext context)
+        public BookRepository(BooksContext context,
+            IHttpClientFactory httpClientFactory)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         public async Task<Book> GetBookAsync(Guid id)
@@ -96,6 +102,27 @@ namespace Books.API.Services
         {
             return await _context.Books.Where(b => booksId.Contains(b.Id))
                 .Include(b => b.Author).ToListAsync();
+        }
+
+        public async Task<BookCover> GetBookCoverAsync(string coverId)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+
+            // pass through a dummy name
+            var response = await httpClient
+                .GetAsync($"http://localhost:21798/api/bookcovers/{coverId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<BookCover>(
+                    await response.Content.ReadAsStringAsync(), // this is a I/O operation, buffering, transfering
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,  // json format default with first letter small, while our Model has property name first letter capital
+                    });
+            }
+
+            return null;
         }
     }
 }

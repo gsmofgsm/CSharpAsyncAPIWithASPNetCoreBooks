@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Books.API.ExternalModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,8 @@ namespace Books.API.Services
         Task<Entities.Book> GetBookAsync(Guid id); // the suffix here tells the consumer that this is async
 
         Task<IEnumerable<Entities.Book>> GetBooksAsync(IEnumerable<Guid> booksId);
+
+        Task<BookCover> GetBookCoverAsync(string coverId); // external services is perfect fit for Async
 
         void AddBook(Entities.Book bookToAdd);
 
