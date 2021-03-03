@@ -6,3 +6,19 @@ Content-Type: application/json
     "title": "test",
     "description": "desc"
 }
+
+POST https://localhost:5001/api/bookcollections
+Content-Type: application/json
+
+[
+    {
+        "authorId": "2902b665-1190-4c70-9915-b9c2d7680450",
+        "title": "test",
+        "description": "desc"
+    },
+    {
+        "authorId": "2902b665-1190-4c70-9915-b9c2d7680450",
+        "title": "test",
+        "description": "desc"
+    }
+]
