@@ -20,6 +20,7 @@ namespace Books.API.Services
         Task<IEnumerable<Entities.Book>> GetBooksAsync(IEnumerable<Guid> booksId);
 
         Task<BookCover> GetBookCoverAsync(string coverId); // external services is perfect fit for Async
+        Task<IEnumerable<BookCover>> GetBookCoversAsync(Guid bookId);
 
         void AddBook(Entities.Book bookToAdd);
 
