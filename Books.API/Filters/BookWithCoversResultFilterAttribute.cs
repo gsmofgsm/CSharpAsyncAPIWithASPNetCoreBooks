@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Books.API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +32,11 @@ namespace Books.API.Filters
 
             var (book, bookCovers) = ((Entities.Book,
                 IEnumerable<ExternalModels.BookCover>))resultFromAction.Value;
+
+            var mapper = context.HttpContext.RequestServices.GetRequiredService<IMapper>();
+
+            var mappedBook = mapper.Map<BookWithCovers>(book);
+            resultFromAction.Value = mapper.Map(bookCovers, mappedBook);
 
             await next();
         }
