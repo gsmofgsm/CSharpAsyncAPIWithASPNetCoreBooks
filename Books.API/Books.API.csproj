@@ -14,5 +14,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Books.Legacy\Books.Legacy.csproj" />
+  </ItemGroup>
+
 
 </Project>
